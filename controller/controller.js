@@ -1,4 +1,5 @@
-const {Fluxmodel} = require("../model/flux")
+const {Fluxmodel} = require("../model/flux");
+const FluxUserSubscribe = require("../model/fluxsignup");
 const Home = (req,res)=>{
     res.send({msg:"Hello from Home"})
 }
@@ -32,4 +33,29 @@ const getStarted =  async (req,res)=>{
 }
 
 
-module.exports = {Blogs,getStarted,Home}
+
+const FluxSubscribe = async (req,res)=>{
+try{
+    const {useremail}= req.body;
+
+    const AlreadyExists = await FluxUserSubscribe.findOne({useremail:useremail});
+
+    if(AlreadyExists){
+        return res.status(409).send({msg:"User already exists"});
+    }
+
+    const Subecribeusers = await FluxUserSubscribe.create({useremail:useremail});
+    console.log(Subecribeusers);
+    if(Subecribeusers){
+        return res.status(201).send({msg:"Subcribe Successful"});
+    }
+   
+}catch(err){
+    res.status(500).send({msg:"Internal server error"});
+}
+    
+
+}
+
+
+module.exports = {Blogs,getStarted,Home,FluxSubscribe}
