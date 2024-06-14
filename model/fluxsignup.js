@@ -18,4 +18,4 @@ const FluxuserSchema = new mongoose.Schema({
 const FluxUserModel = mongoose.model("fluxuser",FluxuserSchema);
 
 
-module.exports  =FluxUserModel;
+module.exports  ={FluxUserModel};
