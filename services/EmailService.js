@@ -1,9 +1,12 @@
 // emailService.js
 const nodemailer = require('nodemailer');
+const {FluxUserModel} = require("../model/fluxsignup")
 require('dotenv').config();
 
+const Subscriber = FluxUserModel.find({});
+console.log(Subscriber)
 const transporter = nodemailer.createTransport({
-  service: 'Gmail',
+  service: 'gmail',
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -13,9 +16,9 @@ const transporter = nodemailer.createTransport({
 const sendEmail = async (to, subject, text) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to,
-    subject,
-    text,
+    to:Subscriber,
+    subject:"Subscribing",
+    text:"Thamk you for Subscribing to Flux",
   };
 
   try {
