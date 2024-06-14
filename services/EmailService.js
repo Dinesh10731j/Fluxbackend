@@ -1,33 +1,30 @@
-// emailService.js
-const nodemailer = require('nodemailer');
-const {FluxUserModel} = require("../model/fluxsignup")
-require('dotenv').config();
+const nodemailer = require("nodemailer");
 
-const Subscriber = FluxUserModel.find({});
-console.log(Subscriber)
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: "smtp.gmail.com",
+  port: 587,
+  secure:true, // Use `true` for port 465, `false` for all other ports
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: "mailer",
+    pass: "clsbwolyibkxrori",
   },
 });
 
-const sendEmail = async (to, subject, text) => {
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to:Subscriber,
-    subject:"Subscribing",
-    text:"Thamk you for Subscribing to Flux",
-  };
+// async..await is not allowed in global scope, must use a wrapper
+async function sendEmail(receiver,message) {
+  // send mail with defined transport object
+  const info = await transporter.sendMail({
+    from: '"maddison53@ethereal.email', // sender address
+    to: receiver, // list of receivers
+    subject: "Fluxss Subscribe Successful", // Subject line
+    text: message, // plain text body
+  
+  });
 
-  try {
-    await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully');
-  } catch (error) {
-    console.error('Error sending email:', error);
-    throw new Error('Failed to send email');
-  }
-};
+  console.log("Message sent: %s", info.messageId);
+  // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
+}
 
-module.exports = { sendEmail };
+
+module.exports = sendEmail;
+

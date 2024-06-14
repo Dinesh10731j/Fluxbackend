@@ -10,6 +10,9 @@ const FluxuserSchema = new mongoose.Schema({
     useremail:{
         type:String,
         unique:true,
+        unique: true,
+        lowercase: true, // Ensure the email is stored in lowercase
+        trim: true 
     }
 
 });

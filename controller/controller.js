@@ -33,26 +33,29 @@ const getStarted =  async (req,res)=>{
 
 
 const FluxSubscribe = async (req, res) => {
-    try {
-      const { useremail } = req.body;
-  
-      const AlreadyExists = await FluxUserModel.findOne({useremail:useremail });
-  
-      if (AlreadyExists) {
-        return res.status(409).send({ msg: "User already exists" });
-      }
-  
-      const Subecribeusers = await FluxUserModel.create({ useremail:useremail });
-      console.log(Subecribeusers);
-      if (Subecribeusers) {
-        await sendEmail(useremail, "Subscription Confirmation", "Thank you for subscribing to Flux!");
-        return res.status(201).send({ msg: "Subscribe Successful" });
-      }
-    } catch (err) {
-      console.error('Error in subscription:', err);
-      res.status(500).send({ msg: "Internal server error" });
+  try {
+    let { useremail } = req.body;
+console.log(useremail)
+    // Normalize the email to lowercase and trim whitespace
+    useremail = useremail.toLowerCase().trim();
+
+    const AlreadyExists = await FluxUserModel.findOne({ useremail });
+
+    if (AlreadyExists) {
+      return res.status(409).send({ msg: "User already exists" });
     }
-  };
-  
-  module.exports = { FluxSubscribe };
+
+    const Subecribeusers = await FluxUserModel.create({ useremail });
+    console.log(Subecribeusers);
+
+    if (Subecribeusers) {
+      await sendEmail(useremail, "Thank you for subscribing to Flux!");
+      return res.status(201).send({ msg: "Subscribe Successful" });
+    }
+  } catch (err) {
+    console.error('Error in subscription:', err);
+    res.status(500).send({ msg: "Internal server error" });
+  }
+};
+
 module.exports = {Blogs,getStarted,FluxSubscribe}
