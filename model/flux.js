@@ -2,30 +2,22 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
 
-
-
-    mongoose.connect(process.env.MONGO_URL).then((data)=>console.log("Database connectd successfully"))
-    .catch((err)=>console.log("Error while connecting database",err));
-
-
-
-
-
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then((data) => console.log("Database connectd successfully"))
+  .catch((err) => console.log("Error while connecting database", err));
 
 const Fluxschema = new mongoose.Schema({
-    title:String,
-    author:String,
-    categories:String,
-    blog:String,
-    isAdmin:{
-        type:Boolean,
-        default:false
-    }
-   
+  title: String,
+  author: String,
+  categories: String,
+  blog: String,
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
 });
 
+const Fluxmodel = mongoose.model("Flux", Fluxschema);
 
-const Fluxmodel = mongoose.model("Flux",Fluxschema);
-
-
-module.exports = {Fluxmodel};
+module.exports = { Fluxmodel };
