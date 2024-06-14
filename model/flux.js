@@ -2,8 +2,13 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
 
-mongoose.connect(process.env.MONGO_URL).then((data)=>console.log("Database connectd successfully"))
-.catch((err)=>console.log("Error while connecting database",err));
+
+
+    mongoose.connect(process.env.MONGO_URL).then((data)=>console.log("Database connectd successfully"))
+    .catch((err)=>console.log("Error while connecting database",err));
+
+
+
 
 
 
