@@ -12,6 +12,10 @@ const Fluxschema = new mongoose.Schema({
     author:String,
     categories:String,
     blog:String,
+    isAdmin:{
+        type:Boolean,
+        default:false
+    }
    
 });
 
