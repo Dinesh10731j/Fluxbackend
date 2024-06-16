@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken")
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -20,6 +21,25 @@ const Fluxschema = new mongoose.Schema({
     default: false,
   },
 });
+
+
+
+Fluxschema.methods.generateToken =async()=>{
+  try{
+    return jwt.sign({
+userId:this._id,
+  author:thi.author,
+  isAdmin:this.isAdmin,
+    },process.env.Signature,{
+      expiresIn:"2d"
+    })
+
+  }catch(err){
+console.log(err);
+  }
+  
+
+}
 
 const Fluxmodel = mongoose.model("Flux", Fluxschema);
 

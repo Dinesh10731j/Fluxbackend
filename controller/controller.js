@@ -1,8 +1,6 @@
 const {Fluxmodel} = require("../model/flux");
 const{FluxUserModel} = require("../model/fluxsignup");
-const {sendEmail} = require("../services/EmailService");
-const jwt = require("jsonwebtoken")
-
+const sendEmail = require("../services/EmailService");
 const Blogs =  async (req,res)=>{
     try{
         const fluxBloggers = await Fluxmodel.find({});
@@ -20,7 +18,7 @@ const getStarted =  async (req,res)=>{
  const {title,author,categories,blog} = await req.body;
 
  const fluxuser = await Fluxmodel.create({title:title,author:author,categories:categories,blog:blog});
- res.status(201).send({msg:"Created successfully"})
+ res.status(201).send({msg:"Created successfully",token:await generateToken(),userId: fluxuser._id.toString()})
 
     }catch(err){
         res.status(500).send("Internal server error ",err)
@@ -50,7 +48,7 @@ console.log(useremail)
 
     if (Subecribeusers) {
       await sendEmail(useremail, "Thank you for subscribing to Flux!");
-      return res.status(201).send({ msg: "Subscribe Successful" });
+      return res.status(201).send({ msg: "Subscribe Successful"});
     }
   } catch (err) {
     console.error('Error in subscription:', err);
