@@ -1,6 +1,7 @@
 const {Fluxmodel} = require("../model/flux");
 const{FluxUserModel} = require("../model/fluxsignup");
 const {sendEmail} = require("../services/EmailService");
+const jwt = require("jsonwebtoken")
 
 const Blogs =  async (req,res)=>{
     try{
@@ -19,7 +20,6 @@ const getStarted =  async (req,res)=>{
  const {title,author,categories,blog} = await req.body;
 
  const fluxuser = await Fluxmodel.create({title:title,author:author,categories:categories,blog:blog});
- console.log(fluxuser)
  res.status(201).send({msg:"Created successfully"})
 
     }catch(err){
