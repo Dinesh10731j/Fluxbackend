@@ -18,7 +18,7 @@ const getStarted = async (req, res) => {
     const fluxuser = new FluxModel({ title, author, categories, blog });
     await fluxuser.generateAuthToken();
     await fluxuser.save();
-
+  
     res.status(201).send({ msg: "Created successfully", token: fluxuser.token });
   } catch (err) {
     res.status(500).send({ msg: "Internal server error", error: err.message });
