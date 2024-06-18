@@ -24,7 +24,7 @@ const Fluxschema = new mongoose.Schema({
 
 
 
-Fluxschema.methods.generateToken =async()=>{
+Fluxschema.method.generateToken =async()=>{
   try{
     return jwt.sign({
 userId:this._id,
