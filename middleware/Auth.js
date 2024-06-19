@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 const CheckToken = (req, res, next) => {
   // Check if Authorization header exists
-  const authHeader = req.headers["authorization"];
+  const authHeader = req.headers["Authorization"];
   console.log(authHeader);
 
   if (!authHeader) {
