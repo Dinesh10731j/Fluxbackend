@@ -1,19 +1,24 @@
-const jwt = require("jsonwebtoken")
-const CheckToken =(req,res,next)=>{
+const jwt = require("jsonwebtoken");
 
-const token = req.headers['Authorization'][0];
+const CheckToken = (req, res, next) => {
+  // Check if Authorization header exists
+  const authHeader = req.headers['authorization'];
 
-const verifiedToken = jwt.verify(token,process.env.Signature);
+  if (!authHeader) {
+    return res.status(401).send({ msg: "Unauthorized - No token provided" });
+  }
 
-if(verifiedToken){
-    res.send({msg:"Authorized Token"});
+  // Extract the token from the Authorization header
+  const token = authHeader.split(' ')[1]; // Assuming Bearer token scheme
+
+  try {
+    const verifiedToken = jwt.verify(token, process.env.Signature);
+    req.user = verifiedToken; // Attach the decoded token payload to the request object
     next();
-}else{
-    res.status(401).send({msg:"Unauthorized"});
-}
+  } catch (err) {
+    console.error("Error verifying token:", err);
+    return res.status(401).send({ msg: "Unauthorized - Invalid token" });
+  }
+};
 
-}
-
-
-
-module.exports=CheckToken;
+module.exports = CheckToken;
