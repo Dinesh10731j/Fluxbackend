@@ -15,7 +15,7 @@ const getStarted = async (req, res) => {
   try {
     const { title, author, categories, blog } = req.body;
 
-    const fluxuser = new FluxModel.create({ title, author, categories, blog });
+    const fluxuser = new FluxModel({ title, author, categories, blog });
     await fluxuser.generateAuthToken();
     await fluxuser.save();
   
