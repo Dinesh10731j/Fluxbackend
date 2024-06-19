@@ -7,7 +7,7 @@ const {
 } = require("../controller/controller");
 const Router = express.Router();
 Router.get("/blog",CheckToken, Blogs);
-Router.post("/getstarted",getStarted);
+Router.post("/getstarted",CheckToken,getStarted);
 Router.post("/subscribe", FluxSubscribe);
 
 module.exports = { Router };
